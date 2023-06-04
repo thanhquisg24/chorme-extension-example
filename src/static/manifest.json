@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "name": "Extension Examples 1",
+  "name": "Extension Examples 2",
   "description": "A chrome extension boilerplate built with React 17, Webpack 5, and Webpack Dev Server 4",
   "options_page": "options.html",
   "version": "1.0.0",

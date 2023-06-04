@@ -4,16 +4,19 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 const getHtmlPlugins = (filenames) =>
-  filenames.map((file) => new HtmlWebpackPlugin({
-    filename: `${file}.html`,
-    chunks: [file],
-    cache: false
-  }));
+  filenames.map(
+    (file) =>
+      new HtmlWebpackPlugin({
+        filename: `${file}.html`,
+        chunks: [file],
+        cache: false,
+      }),
+  );
 
 module.exports = {
   entry: {
     background: path.resolve('src/scripts/background/index.ts'),
-    contentscript: path.resolve('src/scripts/content/index.ts'),
+    contentscript: path.resolve('src/scripts/content/index.tsx'),
     devtools: path.resolve('src/pages/devtools/index.ts'),
     newtab: path.resolve('src/pages/newtab/index.tsx'),
     options: path.resolve('src/pages/options/index.tsx'),
@@ -23,7 +26,12 @@ module.exports = {
   module: {
     rules: [
       {
-        use: 'ts-loader',
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: ['babel-loader'],
+      },
+      {
+        use: 'babel-loader',
         test: /\.(tsx|.ts)?$/,
         exclude: /node_modules/,
       },
@@ -46,7 +54,7 @@ module.exports = {
         },
       ],
     }),
-    ...getHtmlPlugins(['devtools', 'newtab', 'options', 'panel', 'popup'])
+    ...getHtmlPlugins(['devtools', 'newtab', 'options', 'panel', 'popup']),
   ],
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
